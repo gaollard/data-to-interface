@@ -17,7 +17,7 @@
 
 .editor {
   flex: 1;
-  height: 400px;
+  height: calc(100vh - 60px);
   border: 1px solid darkgoldenrod;
 }
 
@@ -37,7 +37,7 @@
 .runner {
   flex: 1;
   box-sizing: border-box;
-  height: 400px;
+  height: calc(100vh - 60px);
   padding: 20px;
   border: 1px solid darkgoldenrod;
 }
