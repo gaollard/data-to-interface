@@ -1,20 +1,48 @@
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
 import "./App1.css";
-import { transform } from "@babel/standalone";
 import { code } from "./code";
-// import { Button } from 'antd';
+import { Button, Switch, Popover, Input } from "antd";
+import { QuestionCircleFilled } from "@ant-design/icons";
 
 require("codemirror/mode/xml/xml");
 require("codemirror/mode/jsx/jsx");
 require("codemirror/lib/codemirror");
 require("codemirror/mode/javascript/javascript");
 
-const Button = (
-  <button></button>
-)
+const paths = [
+  {
+    path: ".wife",
+    inject: true,
+    name: "Wife",
+  },
+  {
+    path: ".school.city",
+    inject: true,
+    name: "My",
+  },
+  {
+    path: ".school",
+    extract: true,
+    name: "School",
+  },
+];
 
-function getType(obj = {} as { [index: string]: any }, depth = 0): string {
+let outPath = [] as { key: string; value: any }[];
+
+function getType(
+  obj = {} as { [index: string]: any },
+  depth = 0,
+  path = ""
+): any {
+  const currentItem = paths.find((it) => {
+    return it.path === path;
+  });
+
+  if (currentItem?.inject && currentItem.name) {
+    // 注入外部类型
+    return currentItem.name;
+  }
+
   if (typeof obj === "string" || typeof obj === "number") {
     return typeof obj;
   }
@@ -22,16 +50,14 @@ function getType(obj = {} as { [index: string]: any }, depth = 0): string {
   const keys = Object.keys(obj);
 
   if (Array.isArray(obj)) {
-    return `${getType(obj[0])}[]`;
+    return `${getType(obj[0], depth + 1, `${path}.0`)}[]`;
   }
 
   const property = [] as { key: string; value: string }[];
 
   keys.forEach((key) => {
-    property.push({
-      key,
-      value: getType(obj[key], depth + 1) + ";",
-    });
+    let value = getType(obj[key], depth + 1, `${path}.${key}`) + ";";
+    property.push({ key, value });
   });
 
   const beforeSpaces = new Array((depth + 1) * 4).fill(undefined).join(" ");
@@ -40,6 +66,15 @@ function getType(obj = {} as { [index: string]: any }, depth = 0): string {
   const typeStr = `{\n${property
     .map((it) => `${beforeSpaces}${it.key}: ${it.value}`)
     .join("\n")}\n${afterSpaces}}`;
+
+  if (currentItem?.extract && currentItem.name) {
+    // 提取子路径作为独立类型
+    outPath.push({
+      key: currentItem.name,
+      value: typeStr,
+    });
+    return currentItem.name;
+  }
 
   return typeStr;
 }
@@ -77,25 +112,14 @@ function App() {
 
   const handleClick = () => {
     const res = getType(JSON.parse(editor.getValue()));
-    console.log(res);
-    output.setValue(res);
+    const outer = outPath
+      .map((it) => `interface ${it.key} ${it.value}\n`)
+      .join("\n");
+    output.setValue(
+      `// reference\n${outer} \n// your type \ninterface Struct ${res}`
+    );
+    outPath = [];
   };
-
-  function run(value: string) {
-    let res = transform(value, {
-      presets: ["es2015", "react"],
-      plugins: ["proposal-class-properties"],
-    });
-
-    const args = ["React", "ReactDOM", "Button"];
-    const argv = [React, ReactDOM, Button];
-    args.push(res.code as string);
-
-    try {
-      // eslint-disable-next-line no-new-func
-      new Function(...args)(...argv);
-    } catch (e) {}
-  }
 
   return (
     <div className="App">
@@ -103,14 +127,49 @@ function App() {
         <div className="editor mirror code-mirror">
           <textarea id="code">{code}</textarea>
         </div>
-        <Button className="run" onClick={handleClick}>
-          生成
+        <Button type="primary" className="run" onClick={handleClick}>
+          生成类型
         </Button>
         <div className="editor mirror output-code">
           <textarea id="output"></textarea>
         </div>
       </div>
-      <div className="runner" id="container"></div>
+      <div className="runner" id="container">
+        <div className="header">
+          <div className="title">
+            <Popover
+              content={
+                <div>
+                  <div>inject: 注入外部类型</div>
+                  <div>extract: 提取子路径作为独立类型</div>
+                </div>
+              }
+              trigger="hover"
+            >
+              <span>自定义 PATH</span>
+              <QuestionCircleFilled style={{ marginLeft: 10 }} />
+            </Popover>
+            <Button>添加</Button>
+          </div>
+        </div>
+
+        {paths.map((it) => (
+          <div className="path">
+            <div className="path-name">
+              <Input value={it.path} />
+            </div>
+            <div>
+              <span>inject</span>
+              <Switch defaultChecked={it.inject} />
+            </div>
+            <div>
+              <span>extract</span>
+              <Switch defaultChecked={it.extract} />
+            </div>
+            <Input value={it.name} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

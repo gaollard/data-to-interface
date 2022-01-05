@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "https://gaollard.github.io/online-code/build/static/css/main.8092aa9d.chunk.css",
+    "main.js": "https://gaollard.github.io/online-code/build/static/js/main.fa45ccb2.chunk.js",
+    "main.js.map": "https://gaollard.github.io/online-code/build/static/js/main.fa45ccb2.chunk.js.map",
+    "runtime-main.js": "https://gaollard.github.io/online-code/build/static/js/runtime-main.039fe4e8.js",
+    "runtime-main.js.map": "https://gaollard.github.io/online-code/build/static/js/runtime-main.039fe4e8.js.map",
+    "static/css/2.c0ca4d6e.chunk.css": "https://gaollard.github.io/online-code/build/static/css/2.c0ca4d6e.chunk.css",
+    "static/js/2.06a5d0ea.chunk.js": "https://gaollard.github.io/online-code/build/static/js/2.06a5d0ea.chunk.js",
+    "static/js/2.06a5d0ea.chunk.js.map": "https://gaollard.github.io/online-code/build/static/js/2.06a5d0ea.chunk.js.map",
+    "static/js/3.6e49e084.chunk.js": "https://gaollard.github.io/online-code/build/static/js/3.6e49e084.chunk.js",
+    "static/js/3.6e49e084.chunk.js.map": "https://gaollard.github.io/online-code/build/static/js/3.6e49e084.chunk.js.map",
+    "index.html": "https://gaollard.github.io/online-code/build/index.html",
+    "static/css/2.c0ca4d6e.chunk.css.map": "https://gaollard.github.io/online-code/build/static/css/2.c0ca4d6e.chunk.css.map",
+    "static/css/main.8092aa9d.chunk.css.map": "https://gaollard.github.io/online-code/build/static/css/main.8092aa9d.chunk.css.map",
+    "static/js/2.06a5d0ea.chunk.js.LICENSE.txt": "https://gaollard.github.io/online-code/build/static/js/2.06a5d0ea.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.039fe4e8.js",
+    "static/css/2.c0ca4d6e.chunk.css",
+    "static/js/2.06a5d0ea.chunk.js",
+    "static/css/main.8092aa9d.chunk.css",
+    "static/js/main.fa45ccb2.chunk.js"
+  ]
+}
