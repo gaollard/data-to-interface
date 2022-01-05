@@ -7,7 +7,7 @@ export const code = `{
   "mother": {
     "name": "tony",
     "school": {
-      "name": "ZZU"
+      "name": null
     }
   },
   "wife": {

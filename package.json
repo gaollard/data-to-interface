@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env PUBLIC_URL=https://gaollard.github.io/online-code/build/ react-scripts build",
+    "build": "cross-env PUBLIC_URL=./ react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
