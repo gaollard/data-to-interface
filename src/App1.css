@@ -10,15 +10,21 @@
 .run {
   width: 60px;
   height: 40px;
-  margin: 20px;
   font-size: 18px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  height: calc(100vh - 60px);
 }
 
 .editor {
   flex: 1;
-  height: calc(100vh - 60px);
-  border: 1px solid darkgoldenrod;
 }
 
 .CodeMirror {
